@@ -23,7 +23,9 @@ public class FileUploadController {
                 StringUtils.getFilenameExtension(file.getOriginalFilename())
                 );
         //调用FastDFSUtil工具类将文件传入到FastDFS中
-        FastDFSUtil.upload(fastDFSFile);
-        return new Result(true, StatusCode.OK, "上传成功");
+        String[] uploads = FastDFSUtil.upload(fastDFSFile);
+        //拼接访问地址url =http：//192.168.211.132:8080/
+        String url="http：//192.168.211.132:8080/"+uploads[0]+"/"+uploads[1];
+        return new Result(true, StatusCode.OK, "上传成功",url);
     }
 }
