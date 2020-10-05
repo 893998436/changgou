@@ -136,6 +136,21 @@ public class FastDFSUtil {
         //通过TrackerClient获取TrackerService链接对象
         TrackerServer trackerServer = trackerClient.getConnection();
         //获取Storage IP和端口信息
-       return trackerClient.getFetchStorages(trackerServer,groupName,remoteFileName);
+        return trackerClient.getFetchStorages(trackerServer, groupName, remoteFileName);
+    }
+    /*
+     * 获取Tracker信息
+     * */
+    public static String getTrackerInfo()throws Exception  {
+        //创建一个TrackClient,访问TrackerService
+        TrackerClient trackerClient = new TrackerClient();
+        //通过TrackerClient获取TrackerService链接对象
+        TrackerServer trackerServer = trackerClient.getConnection();
+        //Tracker的ip，http端口
+        int tracker_http_port = ClientGlobal.getG_tracker_http_port();
+        //Tracker IP
+        String ip = trackerServer.getInetSocketAddress().getHostString();
+        String url="http://"+ip+tracker_http_port;
+        return url;
     }
 }

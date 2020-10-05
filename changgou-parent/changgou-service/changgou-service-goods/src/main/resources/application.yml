@@ -5,11 +5,11 @@ spring:
     name: goods
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-   # url: jdbc:mysql://192.168.211.132:3306/changgou_goods?useUnicode=true&characterEncodi-8&serverTimezone=UTCng=UTF-8&serverTimezone=UTC
-    url: jdbc:mysql://localhost/changgou_goods?useUnicode=true&characterEncoding=UTF-8
+   url: jdbc:mysql://192.168.1.3:3306/changgou_goods?useUnicode=true&characterEncodi-8&serverTimezone=UTCng=UTF-8&serverTimezone=UTC
+    #url: jdbc:mysql://localhost/changgou_goods?useUnicode=true&characterEncoding=UTF-8
     username: root
-   #password: 123456
-    password: root
+   password: 123456
+    #password: root
 
 eureka:
   client:
