@@ -7,7 +7,6 @@ import com.github.pagehelper.PageInfo;
 import entity.Result;
 import entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -84,14 +83,14 @@ public class BrandController {
     //分页查询
     @GetMapping(value = "/search/{page}/{size}")
     public Result<PageInfo<Brand>> findPage(@PathVariable(value = "page") Integer page, @PathVariable(value = "size") Integer size) {
-        PageInfo<Brand> pageInfo=brandService.findPage(page, size);
-        return new Result<PageInfo<Brand>>(true, StatusCode.OK, "分页查询成功!",pageInfo);
+        PageInfo<Brand> pageInfo = brandService.findPage(page, size);
+        return new Result<PageInfo<Brand>>(true, StatusCode.OK, "分页查询成功!", pageInfo);
     }
 
     //分页+条件查询
-    @PostMapping (value = "/search/{page}/{size}")
-    public Result<PageInfo<Brand>> findPage(@RequestBody Brand brand, @PathVariable(value = "page") Integer page, @PathVariable(value = "size") Integer size) {
-        PageInfo<Brand> pageInfo=brandService.findPage(page, size);
-        return new Result<PageInfo<Brand>>(true, StatusCode.OK, "分页查询成功!",pageInfo);
+    @PostMapping(value = "/search/{page}/{size}")
+    public Result<PageInfo<Brand>> findPage(@RequestBody(required = false) Brand brand, @PathVariable(value = "page") Integer page, @PathVariable(value = "size") Integer size) {
+        PageInfo<Brand> pageInfo = brandService.findPage(brand,page, size);
+        return new Result<PageInfo<Brand>>(true, StatusCode.OK, "分页查询成功!", pageInfo);
     }
 }

@@ -6,12 +6,14 @@ import com.changgou.service.AlbumService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
-public class AlbumServiceimpl implements AlbumService {
+@Service
+public class AlbumServiceImpl implements AlbumService {
     @Autowired
     private AlbumMapper albumMapper;
     /***

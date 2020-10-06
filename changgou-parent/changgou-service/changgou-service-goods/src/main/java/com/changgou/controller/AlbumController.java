@@ -33,7 +33,7 @@ public class AlbumController {
      * @return
      */
     @GetMapping("/{id}")
-    public Result<Album> selectById(@PathVariable Long id) {
+    public Result<Album> selectById(@PathVariable(value = "id") Long id) {
         Album album = albumService.findById(id);
         return new Result<Album>(true, StatusCode.OK, "查询成功!", album);
     }

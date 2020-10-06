@@ -7,8 +7,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.StringUtil;
 
 import java.util.List;
 
@@ -76,7 +76,7 @@ public class BrandServiceImpl implements BrandService {
         Example.Criteria criteria = example.createCriteria();//条件构造器
         if (brand != null) {
             //brand.name!=null 根据名字查询
-            if (!StringUtil.isEmpty(brand.getName())) {
+            if (!StringUtils.isEmpty(brand.getName())) {
                 /*
                  * 1.Brand的屬性名
                  * 2.占位符参数，搜索条件
@@ -84,7 +84,7 @@ public class BrandServiceImpl implements BrandService {
                 criteria.andLike("name", "%" + brand.getName() + "%");
             }
             //brand.letter!=null 根据首字母查询and letter="H"
-            if (!StringUtil.isEmpty(brand.getLetter())) {
+            if (!StringUtils.isEmpty(brand.getLetter())) {
                 criteria.andEqualTo("letter", brand.getLetter());
             }
         }
@@ -117,4 +117,5 @@ public class BrandServiceImpl implements BrandService {
         //封装PageInfo<Brand>
         return new PageInfo<Brand>(brands);
     }
+
 }
