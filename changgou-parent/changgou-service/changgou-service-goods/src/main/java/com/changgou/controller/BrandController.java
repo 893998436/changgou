@@ -75,7 +75,7 @@ public class BrandController {
 
     //条件查询
     @PostMapping(value = "/search")
-    public Result<List<Brand>> findList(@RequestBody Brand brand) {
+    public Result<List<Brand>> findList(@RequestBody(required = false) Brand brand) {
         List<Brand> brands = brandService.findList(brand);
         return new Result<List<Brand>>(true, StatusCode.OK, "条件查询成功!", brands);
     }

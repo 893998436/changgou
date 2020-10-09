@@ -75,17 +75,25 @@ public class BrandServiceImpl implements BrandService {
         Example example = new Example(Brand.class);
         Example.Criteria criteria = example.createCriteria();//条件构造器
         if (brand != null) {
-            //brand.name!=null 根据名字查询
-            if (!StringUtils.isEmpty(brand.getName())) {
-                /*
-                 * 1.Brand的屬性名
-                 * 2.占位符参数，搜索条件
-                 * */
-                criteria.andLike("name", "%" + brand.getName() + "%");
+            // 品牌名称
+            if(!StringUtils.isEmpty(brand.getName())){
+                criteria.andLike("name","%"+brand.getName()+"%");
             }
-            //brand.letter!=null 根据首字母查询and letter="H"
-            if (!StringUtils.isEmpty(brand.getLetter())) {
-                criteria.andEqualTo("letter", brand.getLetter());
+            // 品牌图片地址
+            if(!StringUtils.isEmpty(brand.getImage())){
+                criteria.andLike("image","%"+brand.getImage()+"%");
+            }
+            // 品牌的首字母
+            if(!StringUtils.isEmpty(brand.getLetter())){
+                criteria.andLike("letter","%"+brand.getLetter()+"%");
+            }
+            // 品牌id
+            if(!StringUtils.isEmpty(brand.getLetter())){
+                criteria.andEqualTo("id",brand.getId());
+            }
+            // 排序
+            if(!StringUtils.isEmpty(brand.getSeq())){
+                criteria.andEqualTo("seq",brand.getSeq());
             }
         }
         return example;
