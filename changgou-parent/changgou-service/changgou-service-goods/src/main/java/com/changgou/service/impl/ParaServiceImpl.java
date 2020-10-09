@@ -1,7 +1,9 @@
 package com.changgou.service.impl;
 
 import com.changgou.dao.ParaMapper;
+import com.changgou.dao.TemplateMapper;
 import com.changgou.goods.pojo.Para;
+import com.changgou.goods.pojo.Template;
 import com.changgou.service.ParaService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -17,6 +19,8 @@ import java.util.List;
 public class ParaServiceImpl implements ParaService {
     @Autowired
     private ParaMapper paraMapper;
+    @Autowired
+    private TemplateMapper templateMapper;
     @Override
     public PageInfo<Para> findPage(Para para, int page, int size) {
         PageHelper.startPage(page,size);
@@ -79,6 +83,8 @@ public class ParaServiceImpl implements ParaService {
     @Override
     public void update(Para para) {
     paraMapper.updateByPrimaryKey(para);
+        //修改模板统计数据
+        updateParaNum(para,1);
     }
     /***
      * 新增Para
@@ -97,5 +103,18 @@ public class ParaServiceImpl implements ParaService {
     @Override
     public List<Para> findAll() {
         return paraMapper.selectAll();
+    }
+
+    /**
+     * 修改模板统计数据
+     * @param para:操作的参数
+     * @param count:变更的数量
+     */
+    @Override
+    public void updateParaNum(Para para, int count){
+        //修改模板数量统计
+        Template template = templateMapper.selectByPrimaryKey(para.getTemplateId());
+        template.setParaNum(template.getParaNum()+count);
+        templateMapper.updateByPrimaryKeySelective(template);
     }
 }

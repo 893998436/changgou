@@ -60,4 +60,10 @@ public interface ParaService {
      * @return
      */
     List<Para> findAll();
+    /**
+     * 修改模板统计数据
+     * @param para:操作的参数
+     * @param count:变更的数量
+     */
+     void updateParaNum(Para para, int count);
 }

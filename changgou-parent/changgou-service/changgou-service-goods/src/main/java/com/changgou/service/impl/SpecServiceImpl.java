@@ -1,7 +1,9 @@
 package com.changgou.service.impl;
 
 import com.changgou.dao.SpecMapper;
+import com.changgou.dao.TemplateMapper;
 import com.changgou.goods.pojo.Spec;
+import com.changgou.goods.pojo.Template;
 import com.changgou.service.SpecService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -16,6 +18,8 @@ import java.util.List;
 public class SpecServiceImpl implements SpecService {
     @Autowired
     private SpecMapper specMapper;
+    @Autowired
+    private TemplateMapper templateMapper;
 
     /***
      * Spec多条件分页查询
@@ -133,5 +137,16 @@ public class SpecServiceImpl implements SpecService {
     @Override
     public List<Spec> findAll() {
         return specMapper.selectAll();
+    }
+    /**
+     * 修改模板统计数据
+     * @param spec:操作的模板
+     * @param count:变更的数量
+     */
+    public void updateSpecNum(Spec spec,int count){
+        //修改模板数量统计
+        Template template = templateMapper.selectByPrimaryKey(spec.getTemplateId());
+        template.setSpecNum(template.getSpecNum()+count);
+        templateMapper.updateByPrimaryKeySelective(template);
     }
 }
