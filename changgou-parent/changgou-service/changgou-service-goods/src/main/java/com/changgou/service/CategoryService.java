@@ -1,11 +1,14 @@
 package com.changgou.service;
-
 import com.changgou.goods.pojo.Category;
 import com.github.pagehelper.PageInfo;
-
 import java.util.List;
-
+/****
+ * @Author:shenkunlin
+ * @Description:Category业务层接口
+ * @Date 2019/6/14 0:16
+ *****/
 public interface CategoryService {
+
     /***
      * Category多条件分页查询
      * @param category
@@ -53,17 +56,11 @@ public interface CategoryService {
      * @param id
      * @return
      */
-    Category findById(Integer id);
+     Category findById(Integer id);
 
     /***
      * 查询所有Category
      * @return
      */
     List<Category> findAll();
-
-    /***
-     * 根据父节点ID查询
-     * @param pid:父节点ID
-     */
-    List<Category> findByParentId(Integer pid);
 }

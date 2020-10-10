@@ -1,111 +1,126 @@
 package com.changgou.controller;
-
-
 import com.changgou.goods.pojo.Template;
-import com.changgou.service.TemplateService;
+import com.changgou.goods.service.TemplateService;
 import com.github.pagehelper.PageInfo;
 import entity.Result;
 import entity.StatusCode;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+/****
+ * @Author:shenkunlin
+ * @Description:
+ * @Date 2019/6/14 0:18
+ *****/
+
 @RestController
-@CrossOrigin
 @RequestMapping("/template")
+@CrossOrigin
 public class TemplateController {
+
     @Autowired
     private TemplateService templateService;
 
     /***
-     * 查询所有Template
+     * Template分页条件搜索实现
+     * @param template
+     * @param page
+     * @param size
      * @return
      */
-    @GetMapping
-    public Result<Template> findAll() {
-        List<Template> lists = templateService.findAll();
-        return new Result<Template>(true, StatusCode.OK, "查询全部成功！", lists);
-    }
-
-    /**
-     * 根据ID查询Template
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping(value = "/{id}")
-    public Result<Template> findById(@PathVariable(value = "id") Integer id) {
-        Template template = templateService.findById(id);
-        return new Result<Template>(true, StatusCode.OK, "查询成功!", template);
+    @PostMapping(value = "/search/{page}/{size}" )
+    public Result<PageInfo> findPage(@RequestBody(required = false)  Template template, @PathVariable  int page, @PathVariable  int size){
+        //调用TemplateService实现分页条件查询Template
+        PageInfo<Template> pageInfo = templateService.findPage(template, page, size);
+        return new Result(true,StatusCode.OK,"查询成功",pageInfo);
     }
 
     /***
-     * 新增Template
-     * @param template
+     * Template分页搜索实现
+     * @param page:当前页
+     * @param size:每页显示多少条
+     * @return
      */
-    @PostMapping
-    public Result add(@RequestBody Template template) {
-        templateService.add(template);
-        return new Result(true, StatusCode.OK, "添加成功！");
+    @GetMapping(value = "/search/{page}/{size}" )
+    public Result<PageInfo> findPage(@PathVariable  int page, @PathVariable  int size){
+        //调用TemplateService实现分页查询Template
+        PageInfo<Template> pageInfo = templateService.findPage(page, size);
+        return new Result<PageInfo>(true,StatusCode.OK,"查询成功",pageInfo);
+    }
+
+    /***
+     * 多条件搜索品牌数据
+     * @param template
+     * @return
+     */
+    @PostMapping(value = "/search" )
+    public Result<List<Template>> findList(@RequestBody(required = false)  Template template){
+        //调用TemplateService实现条件查询Template
+        List<Template> list = templateService.findList(template);
+        return new Result<List<Template>>(true,StatusCode.OK,"查询成功",list);
+    }
+
+    /***
+     * 根据ID删除品牌数据
+     * @param id
+     * @return
+     */
+    @DeleteMapping(value = "/{id}" )
+    public Result delete(@PathVariable Integer id){
+        //调用TemplateService实现根据主键删除
+        templateService.delete(id);
+        return new Result(true,StatusCode.OK,"删除成功");
     }
 
     /***
      * 修改Template数据
      * @param template
-     */
-    @PutMapping(value = "/{id}")
-    public Result update(@PathVariable(value = "id") Integer id, @RequestBody Template template) {
-        //设置id
-        template.setId(id);
-        templateService.update(template);
-        return new Result(true, StatusCode.OK, "修改成功!");
-    }
-
-    /***
-     * 删除Template
      * @param id
+     * @return
      */
-    @DeleteMapping(value = "/{id}")
-    public Result delete(@PathVariable(value = "id") Integer id) {
-        templateService.delete(id);
-        return new Result(true, StatusCode.OK, "删除成功！");
+    @PutMapping(value="/{id}")
+    public Result update(@RequestBody  Template template,@PathVariable Integer id){
+        //设置主键值
+        template.setId(id);
+        //调用TemplateService实现修改Template
+        templateService.update(template);
+        return new Result(true,StatusCode.OK,"修改成功");
     }
 
     /***
-     * Template多条件搜索方法
+     * 新增Template数据
      * @param template
      * @return
      */
-    @PostMapping(value = "/search")
-    public Result<List<Template>> findList(@RequestBody(required = false) Template template) {
-        List<Template> lists = templateService.findList(template);
-        return new Result<List<Template>>(true, StatusCode.OK, "条件查询成功!", lists);
+    @PostMapping
+    public Result add(@RequestBody   Template template){
+        //调用TemplateService实现添加Template
+        templateService.add(template);
+        return new Result(true,StatusCode.OK,"添加成功");
     }
 
     /***
-     * Template分页查询
-     * @param page
-     * @param size
+     * 根据ID查询Template数据
+     * @param id
      * @return
      */
-    @GetMapping(value = "/search/{page}/{size}")
-    public Result<PageInfo<Template>> findPage(@PathVariable(value = "page") Integer page, @PathVariable(value = "size") Integer size) {
-        PageInfo<Template> templatePageInfo=templateService.findPage(page,size);
-        return new Result<PageInfo<Template>>(true,StatusCode.OK,"分页查询成功!",templatePageInfo);
+    @GetMapping("/{id}")
+    public Result<Template> findById(@PathVariable Integer id){
+        //调用TemplateService实现根据主键查询Template
+        Template template = templateService.findById(id);
+        return new Result<Template>(true,StatusCode.OK,"查询成功",template);
     }
+
     /***
-     * Template多条件分页查询
-     * @param template
-     * @param page
-     * @param size
+     * 查询Template全部数据
      * @return
      */
-    @PostMapping(value = "/search/{page}/{size}")
-    public  Result<PageInfo<Template>> findPage(@RequestBody(required = false) Template template,@PathVariable(value = "page") Integer page,@PathVariable(value = "size") Integer size){
-        PageInfo<Template> templatePageInfo=templateService.findPage(template,page,size);
-        return  new Result<PageInfo<Template>>(true,StatusCode.OK,"分页条件查询成功！",templatePageInfo);
+    @GetMapping
+    public Result<List<Template>> findAll(){
+        //调用TemplateService实现查询所有Template
+        List<Template> list = templateService.findAll();
+        return new Result<List<Template>>(true, StatusCode.OK,"查询成功",list) ;
     }
-
-
 }
