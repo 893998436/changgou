@@ -1,21 +1,16 @@
 package com.changgou.goods.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.changgou.goods.dao.*;
-
-import com.changgou.goods.pojo.*;
+import com.changgou.goods.dao.SpuMapper;
+import com.changgou.goods.pojo.Spu;
 import com.changgou.goods.service.SpuService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import entity.IdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /****
  * @Author:shenkunlin
@@ -27,107 +22,7 @@ public class SpuServiceImpl implements SpuService {
 
     @Autowired
     private SpuMapper spuMapper;
-    @Autowired
-    private IdWorker idWorker;
 
-    @Autowired
-    private CategoryMapper categoryMapper;
-
-    @Autowired
-    private BrandMapper brandMapper;
-
-    @Autowired
-    private SkuMapper skuMapper;
-    @Autowired
-    private CategoryBrandMapper categoryBrandMapper;
-    /***
-     * 根据SpuID查询goods信息
-     * @param spuId
-     * @return
-     */
-    @Override
-    public Goods findGoodsById(Long spuId) {
-        //查询Spu
-        Spu spu = spuMapper.selectByPrimaryKey(spuId);
-
-        //查询List<Sku>
-        Sku sku = new Sku();
-        sku.setSpuId(spuId);
-        List<Sku> skus = skuMapper.select(sku);
-        //封装Goods
-        Goods goods = new Goods();
-        goods.setSkuList(skus);
-        goods.setSpu(spu);
-        return goods;
-    }
-    /***
-     * 保存Goods
-     * @param goods
-     */
-    @Override
-    public void saveGoods(Goods goods) {
-        //增加Spu
-        Spu spu = goods.getSpu();
-        if(spu.getId()==null){
-            //增加
-            spu.setId(idWorker.nextId());
-            spuMapper.insertSelective(spu);
-        }else{
-            //修改数据
-            spuMapper.updateByPrimaryKeySelective(spu);
-            //删除该Spu的Sku
-            Sku sku = new Sku();
-            sku.setSpuId(spu.getId());
-            skuMapper.delete(sku);
-        }
-        //增加Sku
-        Date date = new Date();
-        Category category = categoryMapper.selectByPrimaryKey(spu.getCategory3Id());
-        Brand brand = brandMapper.selectByPrimaryKey(spu.getBrandId());
-        //获取Sku集合
-        List<Sku> skus = goods.getSkuList();
-        //循环将数据加入到数据库
-        for (Sku sku : skus) {
-            //构建SKU名称，采用SPU+规格值组装
-            if(StringUtils.isEmpty(sku.getSpec())){
-                sku.setSpec("{}");
-            }
-            //获取Spu的名字
-            String name = spu.getName();
-
-            //将规格转换成Map
-            Map<String,String> specMap = JSON.parseObject(sku.getSpec(), Map.class);
-            //循环组装Sku的名字
-            for (Map.Entry<String, String> entry : specMap.entrySet()) {
-                name+="  "+entry.getValue();
-            }
-            sku.setName(name);
-            //ID
-            sku.setId(idWorker.nextId());
-            //SpuId
-            sku.setSpuId(spu.getId());
-            //创建日期
-            sku.setCreateTime(date);
-            //修改日期
-            sku.setUpdateTime(date);
-            //商品分类ID
-            sku.setCategoryId(spu.getCategory3Id());
-            //分类名字
-            sku.setCategoryName(category.getName());
-            //品牌名字
-            sku.setBrandName(brand.getName());
-            //增加
-            skuMapper.insertSelective(sku);
-        }
-        //品牌分类关联
-        CategoryBrand categoryBrand=new CategoryBrand();
-        categoryBrand.setCategoryId(spu.getCategory3Id());
-        categoryBrand.setBrandId(spu.getBrandId());
-        int count=categoryBrandMapper.selectCount(categoryBrand);
-        if (count==0){
-            categoryBrandMapper.insertSelective(categoryBrand);
-        }
-    }
 
     /**
      * Spu条件+分页查询
@@ -255,7 +150,7 @@ public class SpuServiceImpl implements SpuService {
             if(!StringUtils.isEmpty(spu.getCommentNum())){
                     criteria.andEqualTo("commentNum",spu.getCommentNum());
             }
-            // 是否上架,0已下架，1已上架
+            // 是否上架
             if(!StringUtils.isEmpty(spu.getIsMarketable())){
                     criteria.andEqualTo("isMarketable",spu.getIsMarketable());
             }
@@ -263,11 +158,11 @@ public class SpuServiceImpl implements SpuService {
             if(!StringUtils.isEmpty(spu.getIsEnableSpec())){
                     criteria.andEqualTo("isEnableSpec",spu.getIsEnableSpec());
             }
-            // 是否删除,0:未删除，1：已删除
+            // 是否删除
             if(!StringUtils.isEmpty(spu.getIsDelete())){
                     criteria.andEqualTo("isDelete",spu.getIsDelete());
             }
-            // 审核状态，0：未审核，1：已审核，2：审核不通过
+            // 审核状态
             if(!StringUtils.isEmpty(spu.getStatus())){
                     criteria.andEqualTo("status",spu.getStatus());
             }
