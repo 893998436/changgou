@@ -10,7 +10,6 @@ spring:
     username: root
     password: 123456
     #password: root
-
 eureka:
   client:
     service-url:

@@ -24,7 +24,6 @@ public class SpecController {
 
     @Autowired
     private SpecService specService;
-
     /***
      * 根据分类ID查询对应的规格列表
      */

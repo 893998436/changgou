@@ -33,7 +33,6 @@ public class CategoryController {
         List<Category> categories = categoryService.findByParentId(pid);
         return new Result<List<Category>>(true,StatusCode.OK,"查询成功！",categories);
     }
-
     /***
      * Category分页条件搜索实现
      * @param category

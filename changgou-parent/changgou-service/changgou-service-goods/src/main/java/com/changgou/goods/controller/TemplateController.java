@@ -24,7 +24,6 @@ public class TemplateController {
 
     @Autowired
     private TemplateService templateService;
-
     /***
      * 根据分类查询模板数据
      * @param id:分类ID

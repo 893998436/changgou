@@ -24,7 +24,6 @@ public class BrandController {
 
     @Autowired
     private BrandService brandService;
-
     /***
      * 根据分类实现品牌列表查询
      * /brand/category/{id}  分类ID

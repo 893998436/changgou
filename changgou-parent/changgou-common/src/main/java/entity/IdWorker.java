@@ -22,7 +22,6 @@ import java.net.NetworkInterface;
  *
  * @author Polim
  */
-
 public class IdWorker {
     // 时间起始标记点，作为基准，一般取系统的最近时间（一旦确定不能变动）
     private final static long twepoch = 1288834974657L;
@@ -160,13 +159,14 @@ public class IdWorker {
         return id;
     }
 
+
     public static void main(String[] args) {
-        //雪花算法
-        IdWorker idWorker = new IdWorker(0,0);
-		
-        for (int i = 0; i <10000; i++) {
-            long nextId=idWorker.nextId();
-			System.out.println(nextId);
+        //推特  26万个不重复的ID
+        //参数1 参数2 是在0 -31 之间
+        IdWorker idWorker = new IdWorker(0,1);
+        for (int i = 0; i <100 ; i++) {
+            System.out.println(idWorker.nextId());//用于生成唯一的ID
         }
     }
+
 }

@@ -22,8 +22,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
-
-
     /***
      * 根据分类的父节点ID查询所有子节点
      * @param pid
@@ -39,10 +37,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * Category条件+分页查询
-     *      * @param category 查询条件
-     *      * @param page 页码
-     *      * @param size 页大小
-     *      * @return 分页结果
+     * @param category 查询条件
+     * @param page 页码
+     * @param size 页大小
+     * @return 分页结果
      */
     @Override
     public PageInfo<Category> findPage(Category category, int page, int size){

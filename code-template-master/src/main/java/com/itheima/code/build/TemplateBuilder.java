@@ -1,14 +1,16 @@
 package com.itheima.code.build;
 
 import com.itheima.code.swagger.*;
-import com.itheima.code.util.*;
+import com.itheima.code.util.JavaTypes;
+import com.itheima.code.util.ModelInfo;
+import com.itheima.code.util.StringUtils;
 
 import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
 
 /****
- * @Author:shenkunlin
+ * @Author:admin
  * @Description:模板创建
  *               有该对象调用其他对象的构建
  * @Date 2019/6/14 19:14
@@ -71,7 +73,7 @@ public class TemplateBuilder {
             SERVICENAME = props.getProperty("serviceName");
             SWAGGERUI_PATH = props.getProperty("swaggeruipath");
             //工程路径
-            PROJECT_PATH=TemplateBuilder.class.getClassLoader().getResource("").getPath().replace("/target/classes/","")+"/src/main/java/";
+            PROJECT_PATH= TemplateBuilder.class.getClassLoader().getResource("").getPath().replace("/target/classes/","")+"/src/main/java/";
 
             //加载数据库驱动
             Class.forName(props.getProperty("driver"));
@@ -111,7 +113,7 @@ public class TemplateBuilder {
                     //名字操作,去掉tab_,tb_，去掉_并转驼峰
                     String table = StringUtils.replace_(StringUtils.replaceTab(tableName));
                     //大写对象
-                    String Table =StringUtils.firstUpper(table);
+                    String Table = StringUtils.firstUpper(table);
 
                     //需要生成的Pojo属性集合
                     List<ModelInfo> models = new ArrayList<ModelInfo>();
@@ -145,7 +147,7 @@ public class TemplateBuilder {
                        //获取类型，并转成JavaType
                        String javaType = JavaTypes.getType(cloumnsSet.getInt("DATA_TYPE"));
                        //创建该列的信息
-                       models.add(new ModelInfo(javaType, JavaTypes.simpleName(javaType),propertyName,StringUtils.firstUpper(propertyName),remarks, key.equals(columnName),columnName,cloumnsSet.getString("IS_AUTOINCREMENT")));
+                       models.add(new ModelInfo(javaType, JavaTypes.simpleName(javaType),propertyName, StringUtils.firstUpper(propertyName),remarks, key.equals(columnName),columnName,cloumnsSet.getString("IS_AUTOINCREMENT")));
                        //需要导包的类型
                         typeSet.add(javaType);
                         //主键类型
@@ -176,7 +178,7 @@ public class TemplateBuilder {
                     modelMap.put("models",models);
                     modelMap.put("typeSet",typeSet);
                     //主键操作
-                    modelMap.put("keySetMethod","set"+StringUtils.firstUpper(StringUtils.replace_(key)));
+                    modelMap.put("keySetMethod","set"+ StringUtils.firstUpper(StringUtils.replace_(key)));
                     modelMap.put("keyType",keyType);
                     modelMap.put("serviceName",SERVICENAME);
 
@@ -203,7 +205,7 @@ public class TemplateBuilder {
                     if(keyType.equalsIgnoreCase("integer") || keyType.equalsIgnoreCase("long")){
                         format="int64";
                     }
-                    swaggerPathList.addAll(swaggerMethodInit(Table,table,StringUtils.firstLower(keyType),format));
+                    swaggerPathList.addAll(swaggerMethodInit(Table,table, StringUtils.firstLower(keyType),format));
                 }
 
                 //构建Swagger文档数据-JSON数据
@@ -225,7 +227,7 @@ public class TemplateBuilder {
      * @param format
      * @return
      */
-    public static List<SwaggerPath> swaggerMethodInit(String Table,String table,String type,String format){
+    public static List<SwaggerPath> swaggerMethodInit(String Table, String table, String type, String format){
         //集合存储
         List<SwaggerPath> swaggerPaths = new ArrayList<SwaggerPath>();
 
@@ -270,7 +272,7 @@ public class TemplateBuilder {
      * @param table
      * @return
      */
-    public static List<SwaggerMethod> searchMethod(String Table,String table) {
+    public static List<SwaggerMethod> searchMethod(String Table, String table) {
         //存储所有方法操作
         List<SwaggerMethod> swaggerMethods = new ArrayList<SwaggerMethod>();
 
@@ -297,7 +299,7 @@ public class TemplateBuilder {
      * @param table
      * @return
      */
-    public static List<SwaggerMethod> searchPage(String Table,String table){
+    public static List<SwaggerMethod> searchPage(String Table, String table){
         //存储所有方法操作
         List<SwaggerMethod> swaggerMethods = new ArrayList<SwaggerMethod>();
         //1.分页列表
@@ -336,7 +338,7 @@ public class TemplateBuilder {
      * @param table
      * @return
      */
-    public static List<SwaggerMethod> handlerById(String Table,String table,String type,String format){
+    public static List<SwaggerMethod> handlerById(String Table, String table, String type, String format){
         //存储所有方法操作
         List<SwaggerMethod> swaggerMethods = new ArrayList<SwaggerMethod>();
 
@@ -390,7 +392,7 @@ public class TemplateBuilder {
      * @param table
      * @return
      */
-    public static List<SwaggerMethod> addAndFindAll(String Table,String table){
+    public static List<SwaggerMethod> addAndFindAll(String Table, String table){
         //存储所有方法操作
         List<SwaggerMethod> swaggerMethods = new ArrayList<SwaggerMethod>();
 
@@ -429,7 +431,7 @@ public class TemplateBuilder {
      * @param isSearch:是否条件搜索  1：搜索  2：不搜索
      * @return
      */
-    public static List<SwaggerParameters> searchPageParameters(String Table,int isPage,int isSearch){
+    public static List<SwaggerParameters> searchPageParameters(String Table, int isPage, int isSearch){
         //集合
         List<SwaggerParameters> swaggerParametersList = new ArrayList<SwaggerParameters>();
         if(isPage==1){
@@ -472,7 +474,7 @@ public class TemplateBuilder {
      * @param buildModel:是否创建JavaBean对象   1不创建，2创建
      * @return
      */
-    public static List<SwaggerParameters> byIdParameters(String Table,String type,String format,String message,int buildModel){
+    public static List<SwaggerParameters> byIdParameters(String Table, String type, String format, String message, int buildModel){
         //集合
         List<SwaggerParameters> swaggerParametersList = new ArrayList<SwaggerParameters>();
         //入参
@@ -522,7 +524,7 @@ public class TemplateBuilder {
      * @param Table
      * @return
      */
-    public static SwaggerMethod search(String Table,String message,String opId,String method){
+    public static SwaggerMethod search(String Table, String message, String opId, String method){
         SwaggerMethod searchMethod = new SwaggerMethod();
         //searchMethod.setMethod("post");
         searchMethod.setMethod(method);

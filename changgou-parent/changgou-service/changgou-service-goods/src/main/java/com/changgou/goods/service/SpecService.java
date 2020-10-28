@@ -17,7 +17,6 @@ public interface SpecService {
      * @return
      */
     List<Spec> findByCategoryId(Integer categoryid);
-
     /***
      * Spec多条件分页查询
      * @param spec

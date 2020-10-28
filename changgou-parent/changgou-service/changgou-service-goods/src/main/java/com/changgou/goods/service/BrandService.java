@@ -16,7 +16,6 @@ public interface BrandService {
      * @param categoryid:分类ID
      */
     List<Brand> findByCategory(Integer categoryid);
-
     /***
      * Brand多条件分页查询
      * @param brand

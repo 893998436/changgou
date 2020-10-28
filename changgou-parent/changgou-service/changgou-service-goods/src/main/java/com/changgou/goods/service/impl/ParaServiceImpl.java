@@ -42,7 +42,6 @@ public class ParaServiceImpl implements ParaService {
         para.setTemplateId(category.getTemplateId());
         return paraMapper.select(para);
     }
-
     /**
      * Para条件+分页查询
      * @param para 查询条件

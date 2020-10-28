@@ -42,7 +42,6 @@ public class SpecServiceImpl implements SpecService {
         return specMapper.select(spec);
     }
 
-
     /**
      * Spec条件+分页查询
      * @param spec 查询条件

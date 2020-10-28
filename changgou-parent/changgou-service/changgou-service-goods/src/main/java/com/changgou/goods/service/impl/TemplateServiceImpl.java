@@ -24,8 +24,6 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Autowired
     private TemplateMapper templateMapper;
-
-
     @Autowired
     private CategoryMapper categoryMapper;
 
@@ -42,6 +40,7 @@ public class TemplateServiceImpl implements TemplateService {
         //根据模板Id查询模板信息
         return templateMapper.selectByPrimaryKey(category.getTemplateId());
     }
+
     /**
      * Template条件+分页查询
      * @param template 查询条件

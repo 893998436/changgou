@@ -17,7 +17,6 @@ public interface TemplateService {
      * @return
      */
     Template findByCategoryId(Integer id);
-
     /***
      * Template多条件分页查询
      * @param template

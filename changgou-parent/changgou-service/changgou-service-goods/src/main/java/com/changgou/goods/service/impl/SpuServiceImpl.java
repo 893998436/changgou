@@ -5,7 +5,6 @@ import com.changgou.goods.dao.BrandMapper;
 import com.changgou.goods.dao.CategoryMapper;
 import com.changgou.goods.dao.SkuMapper;
 import com.changgou.goods.dao.SpuMapper;
-
 import com.changgou.goods.pojo.*;
 import com.changgou.goods.service.SpuService;
 import com.github.pagehelper.PageHelper;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,6 @@ public class SpuServiceImpl implements SpuService {
 
     @Autowired
     private SpuMapper spuMapper;
-
     @Autowired
     private IdWorker idWorker;
 
@@ -41,25 +40,6 @@ public class SpuServiceImpl implements SpuService {
 
     @Autowired
     private SkuMapper skuMapper;
-    /***
-     * 根据SpuID查询goods信息
-     * @param spuId
-     * @return
-     */
-    @Override
-    public Goods findGoodsById(Long spuId) {
-        //查询Spu
-        Spu spu = spuMapper.selectByPrimaryKey(spuId);
-        //查询List<Sku>
-        Sku sku = new Sku();
-        sku.setSpuId(spuId);
-        List<Sku> skus = skuMapper.select(sku);
-        //封装Goods
-        Goods goods = new Goods();
-        goods.setSkuList(skus);
-        goods.setSpu(spu);
-        return goods;
-    }
 
     /***
      * 保存Goods
@@ -239,7 +219,7 @@ public class SpuServiceImpl implements SpuService {
             if(!StringUtils.isEmpty(spu.getCommentNum())){
                     criteria.andEqualTo("commentNum",spu.getCommentNum());
             }
-            // 是否上架
+            // 是否上架,0已下架，1已上架
             if(!StringUtils.isEmpty(spu.getIsMarketable())){
                     criteria.andEqualTo("isMarketable",spu.getIsMarketable());
             }
@@ -247,11 +227,11 @@ public class SpuServiceImpl implements SpuService {
             if(!StringUtils.isEmpty(spu.getIsEnableSpec())){
                     criteria.andEqualTo("isEnableSpec",spu.getIsEnableSpec());
             }
-            // 是否删除
+            // 是否删除,0:未删除，1：已删除
             if(!StringUtils.isEmpty(spu.getIsDelete())){
                     criteria.andEqualTo("isDelete",spu.getIsDelete());
             }
-            // 审核状态
+            // 审核状态，0：未审核，1：已审核，2：审核不通过
             if(!StringUtils.isEmpty(spu.getStatus())){
                     criteria.andEqualTo("status",spu.getStatus());
             }
