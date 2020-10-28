@@ -24,12 +24,25 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
 
+    /***
+     * 根据分类的父节点ID查询所有子节点
+     * @param pid
+     * @return
+     */
+    @Override
+    public List<Category> findByParentId(Integer pid) {
+        //SELECT * FROM tb_category WHERE parent_id=?
+        Category category = new Category();
+        category.setParentId(pid);
+        return categoryMapper.select(category);
+    }
+
     /**
      * Category条件+分页查询
-     * @param category 查询条件
-     * @param page 页码
-     * @param size 页大小
-     * @return 分页结果
+     *      * @param category 查询条件
+     *      * @param page 页码
+     *      * @param size 页大小
+     *      * @return 分页结果
      */
     @Override
     public PageInfo<Category> findPage(Category category, int page, int size){
