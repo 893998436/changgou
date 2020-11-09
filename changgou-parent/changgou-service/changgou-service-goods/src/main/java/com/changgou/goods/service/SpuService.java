@@ -12,6 +12,42 @@ import java.util.List;
  * @Date 2019/6/14 0:16
  *****/
 public interface SpuService {
+
+    /***
+     * 还原被删除商品
+     * @param spuId
+     */
+    void restore(Long spuId);
+    /***
+     * 逻辑删除
+     * @param spuId
+     */
+    void logicDelete(Long spuId);
+    /***
+     * 批量商品上架
+     * @param
+     */
+    int putMany(Long[] ids);
+    /***
+     * 商品上架
+     * @param spuId
+     */
+    void put(Long spuId);
+    /***
+     * 商品下架
+     * @param spuId
+     */
+    void pull(Long spuId);
+    /***
+     * 商品审核
+     * @param spuId
+     */
+    void audit(Long spuId);
+    /***
+     * 根据SPU的ID查找SPU以及对应的SKU集合
+     * @param spuId
+     */
+    Goods findGoodsById(Long spuId);
     /**
      * 保存商品
      * @param goods
