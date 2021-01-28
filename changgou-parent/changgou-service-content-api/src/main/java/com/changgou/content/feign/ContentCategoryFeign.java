@@ -1,7 +1,11 @@
 package com.changgou.content.feign;
+import com.changgou.content.pojo.ContentCategory;
+import com.github.pagehelper.PageInfo;
 import entity.Result;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /****
  * @Author:shenkunlin

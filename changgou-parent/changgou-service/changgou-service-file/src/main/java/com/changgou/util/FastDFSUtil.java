@@ -39,7 +39,9 @@ public class FastDFSUtil {
      * 文件上传
      * @parame  fastDFSFile 上传的文件信息封装
      *
-     * */
+     *
+     */
+
     public static String[] upload(FastDFSFile fastDFSFile) throws Exception {
         //附加参数
         NameValuePair[] meta_list = new NameValuePair[1];
@@ -62,10 +64,13 @@ public class FastDFSUtil {
         return uploads;
     }
 
-    /*获取文件信息
+    /*
+     *获取文件信息
      * param groupName ：文件的组名
      * remoteFileNAme 文件的存储路径名字
-     * */
+     *
+     */
+
     public static FileInfo getFile(String groupName, String remoteFileName) throws Exception {
         //创建一个TrackClient,访问TrackerService
         //通过TrackerClient获取TrackerService链接对象
@@ -80,7 +85,8 @@ public class FastDFSUtil {
     /* @param groupName:组名
      * @param remoteFileName：文件存储完整名
      *
-     * */
+     */
+
     public InputStream downloadFile(String groupName, String remoteFileName) throws Exception {
         //创建一个TrackClient,访问TrackerService
         //通过TrackerClient获取TrackerService链接对象
@@ -97,6 +103,7 @@ public class FastDFSUtil {
      * @param groupName:组名
      * @param remoteFileName：文件存储完整名
      * */
+
     public static void delectFile(String groupName, String remoteFileName) throws Exception {
         //创建一个TrackClient,访问TrackerService
         //通过TrackerClient获取TrackerService链接对象
@@ -110,12 +117,13 @@ public class FastDFSUtil {
     /*
      * 获取Storage信息
      * */
+
     public static StorageServer getStorage() throws Exception {
         //创建一个TrackClient,访问TrackerService
         TrackerClient trackerClient = new TrackerClient();
         //通过TrackerClient获取TrackerService链接对象
         TrackerServer trackerServer = trackerClient.getConnection();
-        //获取Stroage信息
+        //获取Storage信息
         return trackerClient.getStoreStorage(trackerServer);
     }
 
@@ -123,6 +131,7 @@ public class FastDFSUtil {
      * 获取Storage的IP和端口信息
      *
      * */
+
     public static ServerInfo[] getServerInfo(String groupName, String remoteFileName) throws Exception {
         //创建一个TrackClient,访问TrackerService
         TrackerClient trackerClient = new TrackerClient();
@@ -135,19 +144,21 @@ public class FastDFSUtil {
     /*
      * 获取Tracker信息
      * */
+
     public static String getTrackerInfo() throws Exception {
         TrackerServer trackerServer = getTrackerServer();
         //Tracker的ip，http端口
         int tracker_http_port = ClientGlobal.getG_tracker_http_port();
         //Tracker IP
         String ip = trackerServer.getInetSocketAddress().getHostString();
-        String url = "http://" + ip + tracker_http_port;
+        String url = "http://" + ip +":"+ tracker_http_port;
         return url;
     }
 
     /*
      * 获取 Tracker
      * */
+
     public static TrackerServer getTrackerServer() throws Exception {
         //创建一个TrackClient,访问TrackerService
         TrackerClient trackerClient = new TrackerClient();
@@ -159,6 +170,7 @@ public class FastDFSUtil {
     /*
      *获取StorageClient
      * */
+
     public static StorageClient getStorageClient(TrackerServer trackerServer) {
         StorageClient storageClient = new StorageClient(trackerServer, null);
         return storageClient;

@@ -24,6 +24,16 @@ public class SkuController {
 
     @Autowired
     private SkuService skuService;
+    /***
+     * 根据审核状态查询Sku
+     * @param status
+     * @return
+     */
+    @GetMapping("/status/{status}")
+    public Result<List<Sku>> findByStatus(@PathVariable String status){
+        List<Sku> list = skuService.findByStatus(status);
+        return new Result<List<Sku>>(true,StatusCode.OK,"查询成功",list);
+    }
 
     /***
      * Sku分页条件搜索实现

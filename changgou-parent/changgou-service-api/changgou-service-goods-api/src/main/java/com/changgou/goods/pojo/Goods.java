@@ -5,8 +5,10 @@ import java.util.List;
 
 public class Goods implements Serializable {
     //SPU
+
     private Spu spu;
     //SKU集合
+
     private List<Sku> skuList;
 
     public Spu getSpu() {

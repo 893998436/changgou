@@ -14,7 +14,10 @@
 <description>畅购商城各大微服务的父工程</description>
     <modules>
         <module>changgou-service-goods</module>
-        <module>changgou-service-canal</module>
+        <module>chaggou-service-canal</module>
+        <module>changgou-service-search</module>
+        <module>changgou-service-content</module>
+
     </modules>
     <dependencies>
         <dependency>

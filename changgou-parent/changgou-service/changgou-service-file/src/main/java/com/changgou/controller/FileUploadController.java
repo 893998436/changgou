@@ -15,11 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileUploadController {
 
     @PostMapping
-    public Result upload(@RequestParam(value = "file") MultipartFile file)throws  Exception {
+    public Result upload(@RequestParam(value="file") MultipartFile file)throws  Exception {
         //封装文件信息
         FastDFSFile fastDFSFile=new FastDFSFile(
-                file.getOriginalFilename(),//文件名字
-                file.getBytes(),//文件字节数组
+                //文件名字
+                file.getOriginalFilename(),
+                //文件字节数组
+                file.getBytes(),
                 StringUtils.getFilenameExtension(file.getOriginalFilename())
                 );
         //调用FastDFSUtil工具类将文件传入到FastDFS中
