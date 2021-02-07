@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: canal
+  main:
+    allow-bean-definition-overriding: true
   redis:
     host: 192.168.1.83
     port: 6379

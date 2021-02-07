@@ -55,6 +55,12 @@
             <version>1.0.5</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-core</artifactId>
+            <version>1.0.5</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>
